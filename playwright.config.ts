@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { API_URL } from './src/utils/constants';
 
 /**
  * Read environment variables from file.
@@ -26,28 +27,39 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
-
+    // baseURL: API_URL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
-
-  /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'api',
+      testDir: './tests/api',
+      use: {
+        baseURL: API_URL,
+        extraHTTPHeaders: {
+          'Accept': 'application/json'
+        },
+      },
     },
-
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'web-chromium',
+      testDir: './tests/web', 
+      use: {
+        ...devices['Desktop Chrome'],
+        trace: 'on-first-retry',
+        screenshot: 'only-on-failure',
+      },
     },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {
