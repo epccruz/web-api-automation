@@ -1,4 +1,4 @@
-import { test, expect } from '../../src/fixtures/api/bookingApi';
+import { test, expect } from '../../src/fixtures/api/manageBookingTestData';
 import { createBookingData } from '../../src/builders/apiBookingBuilder';
 import { BookingData } from '../../src/types';
 
@@ -11,7 +11,7 @@ const requiredFields: (keyof BookingData)[] = [
 ];
 
 for (const withAdditionalNeeds of [true, false]) {
-  test(`Create booking with additiona needs = ${withAdditionalNeeds}`, async ({ bookingApi }) => {
+  test(`Create booking with additional needs = ${withAdditionalNeeds}`, async ({ bookingApi, cleanupBooking }) => {
     const bookingInfo = createBookingData({ withAdditionalNeeds });
 
     const newBooking = await bookingApi.create(bookingInfo);
@@ -32,6 +32,8 @@ for (const withAdditionalNeeds of [true, false]) {
 
     const getBookingResponse = await getBooking.json();
     expect(getBookingResponse).toMatchObject(bookingInfo);
+
+    await cleanupBooking(bookingid);
   });
 }
 
