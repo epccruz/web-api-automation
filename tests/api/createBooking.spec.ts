@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../src/fixtures/api/bookingApi';
 import { createBookingData } from '../../src/builders/apiBookingBuilder';
 import { BookingData } from '../../src/types';
 
@@ -10,12 +10,11 @@ const requiredFields: (keyof BookingData)[] = [
   'bookingdates'
 ];
 
-
 for (const withAdditionalNeeds of [true, false]) {
-  test(`Create booking with additiona needs = ${withAdditionalNeeds}`, async ({ request }) => {
+  test(`Create booking with additiona needs = ${withAdditionalNeeds}`, async ({ bookingApi }) => {
     const bookingInfo = createBookingData({ withAdditionalNeeds });
 
-    const newBooking = await request.post('/booking', { data: bookingInfo });
+    const newBooking = await bookingApi.create(bookingInfo);
     expect(newBooking.status()).toBe(200);
 
     const { booking, bookingid } = await newBooking.json();
@@ -28,7 +27,7 @@ for (const withAdditionalNeeds of [true, false]) {
     }
 
     // Use GET booking API to verify created booking was saved
-    const getBooking = await request.get(`/booking/${bookingid}`);
+    const getBooking = await bookingApi.get(bookingid);
     expect(newBooking.status()).toBe(200);
 
     const getBookingResponse = await getBooking.json();
@@ -37,11 +36,11 @@ for (const withAdditionalNeeds of [true, false]) {
 }
 
 for (const requiredField of requiredFields) {
-  test(`Create booking with missing required field: ${String(requiredField)}`, async ({ request }) => {
+  test(`Create booking with missing required field: ${String(requiredField)}`, async ({ bookingApi }) => {
     const bookingInfo: Partial<BookingData> = createBookingData();
     delete bookingInfo[requiredField];
 
-    const response = await request.post('/booking', { data: bookingInfo });
+    const response = await bookingApi.create(bookingInfo);
 
     expect(response.status()).toBe(500);
   });
