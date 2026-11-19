@@ -2,6 +2,15 @@ import { test, expect } from '@playwright/test';
 import { createBookingData } from '../../src/builders/apiBookingBuilder';
 import { BookingData } from '../../src/types';
 
+const requiredFields: (keyof BookingData)[] = [
+  'firstname',
+  'lastname',
+  'totalprice',
+  'depositpaid',
+  'bookingdates'
+];
+
+
 for (const withAdditionalNeeds of [true, false]) {
   test(`Create booking with additiona needs = ${withAdditionalNeeds}`, async ({ request }) => {
     const bookingInfo = createBookingData({ withAdditionalNeeds });
@@ -27,11 +36,13 @@ for (const withAdditionalNeeds of [true, false]) {
   });
 }
 
-test('Create Booking with missing required info', async ({ request }) => {
-  const bookingInfo: Partial<BookingData> = createBookingData();
-  delete bookingInfo.firstname;
+for (const requiredField of requiredFields) {
+  test(`Create booking with missing required field: ${String(requiredField)}`, async ({ request }) => {
+    const bookingInfo: Partial<BookingData> = createBookingData();
+    delete bookingInfo[requiredField];
 
-  const newBooking = await request.post(`/booking`, { data: bookingInfo });
-  expect(newBooking.ok()).not.toBeTruthy();
-  expect(newBooking.status()).toBe(500);
-});
+    const response = await request.post('/booking', { data: bookingInfo });
+
+    expect(response.status()).toBe(500);
+  });
+}
