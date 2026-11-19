@@ -12,13 +12,13 @@ Automated testing sample of a web application and APIs.
 
 ```bash
 # All tests
-[all tests command]
+npm run test
 
 # Web tests
-[web tests command]
+npm run test:web
 
 # API tests
-[API tests command]
+npm run test:api
 ```
 
 ## Coverage Checklist
