@@ -24,12 +24,12 @@ npm run test:api
 ## Coverage Checklist
 
 ### Web: key user journeys and page behavior
-a. Develop tests for validation the logo and login button is displayed
-b. Develop tests for searching flights
-c. Develop assertions for flight search results
+1. Develop tests for validation the logo and login button is displayed
+2. Develop tests for searching flights
+3. Develop assertions for flight search results
 ### API: successful responses and response schemas
-a. Develop tests for CreateBooking API endpoint with assertions for the response fields
-b. Develop tests for UpdateBooking API endpoint with assertions for the response
+1. Develop tests for CreateBooking API endpoint with assertions for the response fields
+2. Develop tests for UpdateBooking API endpoint with assertions for the response
 fields
-c. Develop tests for GetBooking API endpoint with assertions for the response fields
-d. Develop tests for DeleteBooking API endpoint with assertions for the response fields
+3. Develop tests for GetBooking API endpoint with assertions for the response fields
+4. Develop tests for DeleteBooking API endpoint with assertions for the response fields
