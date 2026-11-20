@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test",
-    "test:web": "npx playwright test -- --project=web-chromium",
-    "test:api": "npx playwright test -- --project=api"
+    "test": "playwright test",
+    "test:web": "playwright test --project=web-chromium",
+    "test:api": "playwright test --project=api"
   },
   "keywords": [],
   "author": "",

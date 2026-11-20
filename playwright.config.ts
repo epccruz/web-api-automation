@@ -47,7 +47,7 @@ export default defineConfig({
       testDir: './tests/web', 
       use: {
         ...devices['Desktop Chrome'],
-        trace: 'on-first-retry',
+        trace: 'on',
         screenshot: 'only-on-failure',
       },
     },
